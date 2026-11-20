@@ -1,0 +1,52 @@
+%% SmartFreeze AI - system architecture (Mermaid). Export: see diagrams/README.md
+flowchart TB
+    subgraph Phone["Android phone (no root, no internet permission)"]
+        subgraph UI["Presentation layer (Jetpack Compose + Material 3)"]
+            S1[Onboarding] --- S2[Dashboard] --- S3[Live monitor] --- S4[AI insights]
+            S5[History] --- S6[Alerts] --- S7[Research] --- S8[Settings] --- S9[About]
+            VM[ViewModels - StateFlow]
+        end
+        subgraph RT["Monitoring runtime"]
+            ENG[MonitoringEngine<br/>sampling loop, lifecycle, battery-aware]
+            SVC[MonitoringService<br/>user-started specialUse FGS]
+            NOTI[AlertNotifier]
+        end
+        subgraph DOM["Domain + ML (pure Kotlin, JVM-tested)"]
+            DET[AnomalyDetector]
+            FP[FeatureProcessor]
+            IF[IsolationForest<br/>Kotlin inference]
+            SEV[SeverityClassifier]
+            POL[AlertPolicy]
+            EXP[ExplanationEngine]
+        end
+        subgraph DATA["Data layer"]
+            MS[AndroidMetricsSource<br/>ActivityManager, PowerManager,<br/>Battery broadcast, StatFs]
+            REPO[Repositories]
+            DB[(Room DB<br/>10 tables)]
+            MODEL[[assets/model/<br/>smartfreeze_model.json]]
+            CSV[CsvExporter]
+        end
+        subgraph RES["Research tools (own process only)"]
+            PROBE[ResponsivenessProbe]
+            WL[ControlledWorkload]
+        end
+    end
+    subgraph PC["Windows laptop"]
+        PY[Python pipeline<br/>validate - features - train - evaluate - export]
+        PYT[pytest + parity fixtures]
+    end
+    VM --> ENG
+    SVC --> ENG
+    ENG --> MS
+    ENG --> DET --> FP --> IF
+    DET --> SEV
+    DET --> EXP
+    ENG --> POL --> NOTI
+    ENG --> REPO --> DB
+    REPO --> MODEL
+    PROBE --> REPO
+    WL -.stress own app.-> ENG
+    CSV --> DB
+    CSV -- user share --> PY
+    PY -- exported JSON model --> MODEL
+    PY --> PYT

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SmartFreeze AI</string>
+    <string name="channel_alerts_name">Performance alerts</string>
+    <string name="channel_alerts_desc">Unusual performance conditions detected during monitoring</string>
+    <string name="channel_monitoring_name">Monitoring session</string>
+    <string name="channel_monitoring_desc">Shown while a background monitoring session is running</string>
+    <string name="notif_monitoring_title">SmartFreeze AI is monitoring</string>
+    <string name="notif_monitoring_text">Background session active. Tap Stop to end it.</string>
+    <string name="notif_stop">Stop</string>
+</resources>

@@ -1,0 +1,36 @@
+# Android / Gradle
+android-app/.gradle/
+android-app/build/
+android-app/app/build/
+android-app/local.properties
+android-app/.idea/
+android-app/captures/
+android-app/.kotlin/
+*.iml
+*.apk
+*.aab
+*.keystore
+*.jks
+
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+machine-learning/.venv/
+machine-learning/notebooks/.ipynb_checkpoints/
+
+# Generated model artefacts (re-create with the pipeline; the Android asset copy IS committed)
+machine-learning/models/*
+!machine-learning/models/.gitkeep
+
+# Personal monitoring data must never be committed
+machine-learning/data/raw/*
+!machine-learning/data/raw/.gitkeep
+research/results/*
+!research/results/.gitkeep
+*.trace
+*.perfetto-trace
+
+# OS
+.DS_Store
+Thumbs.db

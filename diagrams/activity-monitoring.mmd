@@ -1,0 +1,24 @@
+%% Activity diagram: a monitoring session (Mermaid flowchart used as UML activity diagram)
+flowchart TD
+    A([User taps Start monitoring]) --> B[Create session row<br/>load settings, reset alert policy]
+    B --> C{App visible or<br/>background session?}
+    C -- no --> P[Pause: record nothing] --> C
+    C -- yes --> D[Read metrics]
+    D --> E{Timestamp increasing<br/>and not duplicate?}
+    E -- no --> W
+    E -- yes --> F[Store sample]
+    F --> G{Model loaded?}
+    G -- yes --> H[Features -> Isolation Forest score]
+    G -- no --> H2[Rule-based cold-start check]
+    H --> I[Severity + explanation]
+    H2 --> I
+    I --> J{Category normal?}
+    J -- yes --> W
+    J -- no --> K[Store anomaly]
+    K --> L{Alert policy:<br/>severity >= preference<br/>and not in cooldown?}
+    L -- yes --> M[Store alert, notify if permitted]
+    L -- no --> W
+    M --> W[Wait interval<br/>doubled if battery <= 20%]
+    W --> X{Stop requested?}
+    X -- no --> C
+    X -- yes --> Z([Close session])

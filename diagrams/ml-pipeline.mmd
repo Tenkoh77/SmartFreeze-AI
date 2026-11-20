@@ -1,0 +1,17 @@
+%% Machine-learning pipeline (Mermaid)
+flowchart LR
+    A[Phone CSV export<br/>samples + slowdown events] --> B[Validate & clean<br/>drop/flag invalid rows,<br/>missing stays NaN]
+    B --> C[Feature engineering<br/>16 features, windows 30/60/120 s,<br/>past-only]
+    C --> D[Chronological split<br/>by session: 60/20/20,<br/>time-gap fallback]
+    D --> E[Train Isolation Forest<br/>normal training rows only,<br/>grid search]
+    E --> F[Choose threshold<br/>on validation]
+    D --> G[Activity models<br/>if >= 500 rows]
+    F --> H[Test evaluation<br/>vs fixed & tuned thresholds]
+    G --> H
+    D --> I[Early-warning experiment<br/>30/60 s horizons,<br/>refuses if data insufficient]
+    F --> J[Export JSON bundle<br/>trees + imputation + baseline]
+    J --> K[Parity fixtures]
+    J --> L[Android assets]
+    K --> M[Kotlin ModelParityTest]
+    H --> N[report.md / plots]
+    I --> N

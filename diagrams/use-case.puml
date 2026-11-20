@@ -1,0 +1,42 @@
+@startuml
+' SmartFreeze AI - use-case diagram (PlantUML). Export: see diagrams/README.md
+left to right direction
+actor "Phone user" as U
+actor "Researcher" as R
+actor "Android OS" as OS
+U <|-- R
+rectangle "SmartFreeze AI" {
+  usecase "Complete onboarding\n(privacy, permissions)" as UC1
+  usecase "Start / stop / pause\nmonitoring" as UC2
+  usecase "View dashboard and\nlive charts" as UC3
+  usecase "View AI insights and\nrecommendations" as UC4
+  usecase "Receive and acknowledge\nalerts" as UC5
+  usecase "Browse history and\nfilter by date/activity" as UC6
+  usecase "Configure settings\n(interval, alerts, retention, theme)" as UC7
+  usecase "Export / delete data" as UC8
+  usecase "Start background session" as UC9
+  usecase "Label activity" as UC10
+  usecase "Run responsiveness probe\nand tap test" as UC11
+  usecase "Record manual lag event" as UC12
+  usecase "Run controlled workload" as UC13
+  usecase "Inject simulated episode" as UC14
+  usecase "Detect anomaly\n(Isolation Forest)" as UC15
+}
+U --> UC1
+U --> UC2
+U --> UC3
+U --> UC4
+U --> UC5
+U --> UC6
+U --> UC7
+U --> UC8
+U --> UC9
+R --> UC10
+R --> UC11
+R --> UC12
+R --> UC13
+R --> UC14
+UC2 .> UC15 : <<include>>
+UC15 .> UC5 : <<extend>>
+OS --> UC15 : provides metrics
+@enduml

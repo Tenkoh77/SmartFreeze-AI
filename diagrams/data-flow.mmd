@@ -1,0 +1,18 @@
+%% Data-flow diagram, level 1 (Mermaid)
+flowchart LR
+    OS([Android system services]) -- memory, thermal, battery, storage --> P1((1. Collect sample))
+    P1 -- sample --> DS1[(D1 samples)]
+    P1 -- raw sample --> P2((2. Compute features))
+    P2 -- feature vector --> DS2[(D2 feature_windows)]
+    P2 --> P3((3. Score with Isolation Forest))
+    MODEL[(D3 model JSON)] --> P3
+    P3 --> P4((4. Classify severity and explain))
+    P4 -- non-normal result --> DS4[(D4 anomalies)]
+    P4 --> P5((5. Alert policy))
+    P5 -- alert --> DS5[(D5 alerts)]
+    P5 -- notification --> USER([User])
+    USER -- settings, labels, manual lag --> P6((6. Research and settings))
+    P6 --> DS6[(D6 settings / activity_labels / slowdown_events)]
+    DS1 & DS4 & DS6 --> P7((7. Export CSV))
+    P7 -- share sheet --> PC([Python training pipeline])
+    PC -- new model --> MODEL

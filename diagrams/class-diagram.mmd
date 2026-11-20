@@ -1,0 +1,70 @@
+%% Class diagram, core classes (Mermaid)
+classDiagram
+    class MetricsSource {
+        <<interface>>
+        +read() DeviceReading
+    }
+    class AndroidMetricsSource {
+        +read() DeviceReading
+    }
+    class MonitoringEngine {
+        +state StateFlow
+        +start(mode)
+        +stop()
+        +setUserPaused(paused)
+        +setActivity(label)
+        +injectSimulatedEpisode()
+        -tick()
+    }
+    class AnomalyDetector {
+        +process(sample, activity) DetectionResult
+    }
+    class FeatureProcessor {
+        +windowSeconds Int
+        +next(sample) DoubleArray
+        +reset()
+    }
+    class ModelBundle {
+        +modelVersion String
+        +syntheticTrainingData Boolean
+        +forActivity(label) IsolationForest
+        +parse(json)$ ModelBundle
+    }
+    class IsolationForest {
+        +scoreThreshold Double
+        +score(x) Double
+        +isAnomalous(score) Boolean
+    }
+    class IsolationTree {
+        +pathLength(x) Double
+        +averagePathLength(n)$ Double
+    }
+    class SeverityClassifier {
+        +classify(x, score, threshold, consecutive) Outcome
+    }
+    class AlertPolicy {
+        +cooldownMs Long
+        +minSeverity Severity
+        +decide(category, severity, now) Decision
+    }
+    class ExplanationEngine {
+        +deviations(x, baseline) List
+        +explain(category, deviations, ruleBased) String
+        +recommendations(deviations, x) List
+    }
+    class MonitoringRepository
+    class AlertNotifier
+    class AppDatabase
+    MetricsSource <|.. AndroidMetricsSource
+    MonitoringEngine --> MetricsSource
+    MonitoringEngine --> MonitoringRepository
+    MonitoringEngine --> AlertPolicy
+    MonitoringEngine --> AlertNotifier
+    MonitoringEngine --> AnomalyDetector
+    AnomalyDetector --> FeatureProcessor
+    AnomalyDetector --> ModelBundle
+    AnomalyDetector --> SeverityClassifier
+    AnomalyDetector --> ExplanationEngine
+    ModelBundle "1" o-- "1..*" IsolationForest
+    IsolationForest "1" o-- "1..*" IsolationTree
+    MonitoringRepository --> AppDatabase

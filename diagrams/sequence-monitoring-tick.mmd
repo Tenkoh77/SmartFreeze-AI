@@ -1,0 +1,32 @@
+%% Sequence diagram: one sampling tick (Mermaid)
+sequenceDiagram
+    participant E as MonitoringEngine
+    participant M as AndroidMetricsSource
+    participant R as MonitoringRepository
+    participant D as AnomalyDetector
+    participant F as FeatureProcessor
+    participant IF as IsolationForest
+    participant P as AlertPolicy
+    participant N as AlertNotifier
+    participant UI as Compose UI
+    E->>M: read()
+    M-->>E: DeviceReading (nulls = unavailable)
+    E->>R: insertSample(session, reading)
+    R-->>E: sampleId (null if duplicate)
+    alt model loaded
+        E->>D: process(rawSample, activity)
+        D->>F: next(sample)
+        F-->>D: 16 features (past-only window)
+        D->>IF: score(features) [imputes NaN]
+        IF-->>D: anomaly score
+        D-->>E: DetectionResult (category, severity, explanation)
+    else cold start
+        E->>D: process() -> rule-based check, labelled
+    end
+    E->>R: saveDetection(features, result)
+    E->>P: decide(category, severity, time)
+    opt ALERT
+        E->>R: createAlert()
+        E->>N: notifyAlert() if permitted
+    end
+    E-->>UI: StateFlow update -> recompose

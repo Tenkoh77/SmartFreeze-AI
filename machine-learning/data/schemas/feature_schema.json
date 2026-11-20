@@ -1,0 +1,26 @@
+{
+  "schema_name": "smartfreeze-features",
+  "schema_version": 1,
+  "description": "Ordered feature vector used by both the Python training pipeline and the Kotlin on-device inference. Order is significant: index i in this list is column i of the model input. Every feature is computed ONLY from the current sample and earlier samples of the same monitoring session (no future information).",
+  "pressure_rule": "A sample is 'under resource pressure' when low_memory == 1 OR mem_margin_ratio < 0.05 OR thermal_status >= 3 (THERMAL_STATUS_SEVERE).",
+  "window_rule": "Window samples are those of the same session with timestamp_ms > t_now - window_seconds*1000 and timestamp_ms <= t_now (current sample included).",
+  "missing_rule": "Unavailable measurements are NaN in the feature vector and replaced at inference time by the training-set median exported with the model (imputation map).",
+  "features": [
+    {"index": 0,  "name": "mem_avail_ratio",     "unit": "fraction", "definition": "MemoryInfo.availMem / MemoryInfo.totalMem"},
+    {"index": 1,  "name": "mem_margin_ratio",    "unit": "fraction", "definition": "(availMem - MemoryInfo.threshold) / totalMem; negative means below Android's low-memory threshold"},
+    {"index": 2,  "name": "low_memory",          "unit": "0/1",      "definition": "MemoryInfo.lowMemory"},
+    {"index": 3,  "name": "thermal_status",      "unit": "0-6",      "definition": "PowerManager.getCurrentThermalStatus(); NaN if unavailable"},
+    {"index": 4,  "name": "thermal_headroom",    "unit": "ratio",    "definition": "PowerManager.getThermalHeadroom(10s forecast); 1.0 = throttling threshold; NaN if unsupported/unreliable"},
+    {"index": 5,  "name": "battery_level",       "unit": "fraction", "definition": "BatteryManager level / scale"},
+    {"index": 6,  "name": "is_charging",         "unit": "0/1",      "definition": "Battery status CHARGING or FULL while plugged"},
+    {"index": 7,  "name": "battery_temp_c",      "unit": "deg C",    "definition": "ACTION_BATTERY_CHANGED EXTRA_TEMPERATURE / 10; NaN if absent"},
+    {"index": 8,  "name": "storage_free_ratio",  "unit": "fraction", "definition": "StatFs(dataDir).availableBytes / totalBytes"},
+    {"index": 9,  "name": "mem_ratio_mean_w",    "unit": "fraction", "definition": "Mean of mem_avail_ratio over the window"},
+    {"index": 10, "name": "mem_ratio_std_w",     "unit": "fraction", "definition": "Population standard deviation (ddof=0) of mem_avail_ratio over the window"},
+    {"index": 11, "name": "mem_ratio_slope_w",   "unit": "fraction/min", "definition": "Least-squares slope of mem_avail_ratio against time in minutes over the window; 0 when fewer than 2 samples"},
+    {"index": 12, "name": "thermal_delta_w",     "unit": "levels",   "definition": "Current thermal_status minus minimum non-missing thermal_status in window; NaN if current is missing"},
+    {"index": 13, "name": "pressure_fraction_w", "unit": "fraction", "definition": "Fraction of window samples satisfying the pressure rule"},
+    {"index": 14, "name": "sample_gap_s",        "unit": "s",        "definition": "Seconds since previous sample of the same session; NaN for the first sample"},
+    {"index": 15, "name": "completeness_w",      "unit": "fraction", "definition": "min(1, n_window_samples / floor(window_seconds / interval_s)) where interval_s is the configured sampling interval"}
+  ]
+}

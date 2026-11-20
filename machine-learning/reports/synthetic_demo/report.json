@@ -1,0 +1,458 @@
+{
+  "synthetic_data": true,
+  "validation": {
+    "rows_in": 8640,
+    "rows_out": 8640,
+    "dropped": {},
+    "sessions": 24,
+    "missing_fraction": {
+      "thermal_status": 0.0,
+      "thermal_headroom": 0.30162037037037037,
+      "battery_temp_c": 0.0,
+      "storage_avail_bytes": 0.0
+    }
+  },
+  "seed": 42,
+  "target_fpr": 0.01,
+  "threshold_method": "fpr",
+  "WARNING": "Synthetic data: these numbers test the software only and must not be reported as findings.",
+  "window_selection": "highest validation PR-AUC",
+  "window_comparison": [
+    {
+      "window_seconds": 30,
+      "val_pr_auc": 0.28768582520884045,
+      "params": {
+        "n_estimators": 200,
+        "max_samples": 256,
+        "max_features": 1.0,
+        "contamination": "auto"
+      }
+    },
+    {
+      "window_seconds": 60,
+      "val_pr_auc": 0.30808660413743244,
+      "params": {
+        "n_estimators": 200,
+        "max_samples": 256,
+        "max_features": 1.0,
+        "contamination": "auto"
+      }
+    },
+    {
+      "window_seconds": 120,
+      "val_pr_auc": 0.3078382041211858,
+      "params": {
+        "n_estimators": 200,
+        "max_samples": 256,
+        "max_features": 0.75,
+        "contamination": "auto"
+      }
+    }
+  ],
+  "chosen_window_seconds": 60,
+  "tuning_log": [
+    {
+      "params": {
+        "n_estimators": 100,
+        "max_samples": 128,
+        "max_features": 0.75,
+        "contamination": "auto"
+      },
+      "val_pr_auc": 0.23820757200839554
+    },
+    {
+      "params": {
+        "n_estimators": 100,
+        "max_samples": 128,
+        "max_features": 1.0,
+        "contamination": "auto"
+      },
+      "val_pr_auc": 0.26691092775480324
+    },
+    {
+      "params": {
+        "n_estimators": 100,
+        "max_samples": 256,
+        "max_features": 0.75,
+        "contamination": "auto"
+      },
+      "val_pr_auc": 0.2618383484022424
+    },
+    {
+      "params": {
+        "n_estimators": 100,
+        "max_samples": 256,
+        "max_features": 1.0,
+        "contamination": "auto"
+      },
+      "val_pr_auc": 0.24190172346216454
+    },
+    {
+      "params": {
+        "n_estimators": 200,
+        "max_samples": 128,
+        "max_features": 0.75,
+        "contamination": "auto"
+      },
+      "val_pr_auc": 0.2430542063088163
+    },
+    {
+      "params": {
+        "n_estimators": 200,
+        "max_samples": 128,
+        "max_features": 1.0,
+        "contamination": "auto"
+      },
+      "val_pr_auc": 0.29084771077109334
+    },
+    {
+      "params": {
+        "n_estimators": 200,
+        "max_samples": 256,
+        "max_features": 0.75,
+        "contamination": "auto"
+      },
+      "val_pr_auc": 0.29444196463269956
+    },
+    {
+      "params": {
+        "n_estimators": 200,
+        "max_samples": 256,
+        "max_features": 1.0,
+        "contamination": "auto"
+      },
+      "val_pr_auc": 0.30808660413743244
+    }
+  ],
+  "split_counts": {
+    "train": 5040,
+    "val": 1800,
+    "test": 1800
+  },
+  "split_sessions": {
+    "train": [
+      "SIM-000",
+      "SIM-001",
+      "SIM-002",
+      "SIM-003",
+      "SIM-004",
+      "SIM-005",
+      "SIM-006",
+      "SIM-007",
+      "SIM-008",
+      "SIM-009",
+      "SIM-010",
+      "SIM-011",
+      "SIM-012",
+      "SIM-013"
+    ],
+    "val": [
+      "SIM-014",
+      "SIM-015",
+      "SIM-016",
+      "SIM-017",
+      "SIM-018"
+    ],
+    "test": [
+      "SIM-019",
+      "SIM-020",
+      "SIM-021",
+      "SIM-022",
+      "SIM-023"
+    ]
+  },
+  "activity_models": {
+    "app_switching": {
+      "n_train": 720,
+      "threshold": 0.5553267858498211
+    },
+    "charging": {
+      "n_train": 678,
+      "threshold": 0.5775092396491304
+    },
+    "gaming": {
+      "n_train": 720,
+      "threshold": 0.6063338442888592
+    },
+    "idle": {
+      "n_train": 993,
+      "threshold": 0.6729251536315002
+    },
+    "video": {
+      "n_train": 678,
+      "threshold": 0.5958720716732833
+    }
+  },
+  "activity_models_skipped": {
+    "browsing": "no validation rows for 'activity:browsing'"
+  },
+  "test": {
+    "isolation_forest_general": {
+      "n": 1800,
+      "point": {
+        "tp": 28,
+        "fp": 13,
+        "fn": 22,
+        "tn": 1737,
+        "precision": 0.6829268292682927,
+        "recall": 0.56,
+        "f1": 0.6153846153846154,
+        "false_positive_rate": 0.0074285714285714285,
+        "pr_auc": 0.597646371247686
+      },
+      "episode": {
+        "episodes": 1,
+        "episodes_detected": 1,
+        "detection_rate": 1.0,
+        "median_detection_latency_s": 109.998,
+        "false_alerts_per_hour": 2.8882283149067423,
+        "normal_hours": 2.4236311111111113
+      },
+      "per_activity": {
+        "app_switching": {
+          "n": 360,
+          "alarm_rate_on_normal": 0.0,
+          "precision": null,
+          "recall": null,
+          "f1": null
+        },
+        "browsing": {
+          "n": 360,
+          "alarm_rate_on_normal": 0.0,
+          "precision": null,
+          "recall": null,
+          "f1": null
+        },
+        "charging": {
+          "n": 360,
+          "alarm_rate_on_normal": 0.0,
+          "precision": null,
+          "recall": null,
+          "f1": null
+        },
+        "gaming": {
+          "n": 360,
+          "alarm_rate_on_normal": 0.019444444444444445,
+          "precision": 0.0,
+          "recall": null,
+          "f1": 0.0
+        },
+        "video": {
+          "n": 360,
+          "alarm_rate_on_normal": 0.01935483870967742,
+          "precision": 0.8235294117647058,
+          "recall": 0.56,
+          "f1": 0.6666666666666666
+        }
+      }
+    },
+    "isolation_forest_activity_aware": {
+      "n": 1800,
+      "point": {
+        "tp": 39,
+        "fp": 21,
+        "fn": 11,
+        "tn": 1729,
+        "precision": 0.65,
+        "recall": 0.78,
+        "f1": 0.709090909090909,
+        "false_positive_rate": 0.012,
+        "pr_auc": 0.868418636008696
+      },
+      "episode": {
+        "episodes": 1,
+        "episodes_detected": 1,
+        "detection_rate": 1.0,
+        "median_detection_latency_s": 39.998,
+        "false_alerts_per_hour": 5.7764566298134845,
+        "normal_hours": 2.4236311111111113
+      },
+      "per_activity": {
+        "app_switching": {
+          "n": 360,
+          "alarm_rate_on_normal": 0.013888888888888888,
+          "precision": 0.0,
+          "recall": null,
+          "f1": 0.0
+        },
+        "browsing": {
+          "n": 360,
+          "alarm_rate_on_normal": 0.0,
+          "precision": null,
+          "recall": null,
+          "f1": null
+        },
+        "charging": {
+          "n": 360,
+          "alarm_rate_on_normal": 0.011111111111111112,
+          "precision": 0.0,
+          "recall": null,
+          "f1": 0.0
+        },
+        "gaming": {
+          "n": 360,
+          "alarm_rate_on_normal": 0.005555555555555556,
+          "precision": 0.0,
+          "recall": null,
+          "f1": 0.0
+        },
+        "video": {
+          "n": 360,
+          "alarm_rate_on_normal": 0.03225806451612903,
+          "precision": 0.7959183673469388,
+          "recall": 0.78,
+          "f1": 0.7878787878787878
+        }
+      }
+    },
+    "threshold_baseline_fixed": {
+      "rule": {
+        "mem_ratio_cutoff": 0.15,
+        "thermal_cutoff": 3
+      },
+      "n": 1800,
+      "point": {
+        "tp": 33,
+        "fp": 11,
+        "fn": 17,
+        "tn": 1739,
+        "precision": 0.75,
+        "recall": 0.66,
+        "f1": 0.702127659574468,
+        "false_positive_rate": 0.006285714285714286,
+        "pr_auc": 0.3064148081986315
+      },
+      "episode": {
+        "episodes": 1,
+        "episodes_detected": 1,
+        "detection_rate": 1.0,
+        "median_detection_latency_s": 84.988,
+        "false_alerts_per_hour": 4.126040449866775,
+        "normal_hours": 2.4236311111111113
+      },
+      "per_activity": {
+        "app_switching": {
+          "n": 360,
+          "alarm_rate_on_normal": 0.0,
+          "precision": null,
+          "recall": null,
+          "f1": null
+        },
+        "browsing": {
+          "n": 360,
+          "alarm_rate_on_normal": 0.0,
+          "precision": null,
+          "recall": null,
+          "f1": null
+        },
+        "charging": {
+          "n": 360,
+          "alarm_rate_on_normal": 0.0,
+          "precision": null,
+          "recall": null,
+          "f1": null
+        },
+        "gaming": {
+          "n": 360,
+          "alarm_rate_on_normal": 0.027777777777777776,
+          "precision": 0.0,
+          "recall": null,
+          "f1": 0.0
+        },
+        "video": {
+          "n": 360,
+          "alarm_rate_on_normal": 0.0032258064516129032,
+          "precision": 0.9705882352941176,
+          "recall": 0.66,
+          "f1": 0.7857142857142857
+        }
+      }
+    },
+    "threshold_baseline_tuned": {
+      "rule": {
+        "mem_ratio_cutoff": 0.17083407274757823,
+        "thermal_cutoff": 3
+      },
+      "n": 1800,
+      "point": {
+        "tp": 33,
+        "fp": 15,
+        "fn": 17,
+        "tn": 1735,
+        "precision": 0.6875,
+        "recall": 0.66,
+        "f1": 0.673469387755102,
+        "false_positive_rate": 0.008571428571428572,
+        "pr_auc": 0.3064148081986315
+      },
+      "episode": {
+        "episodes": 1,
+        "episodes_detected": 1,
+        "detection_rate": 1.0,
+        "median_detection_latency_s": 84.988,
+        "false_alerts_per_hour": 4.538644494853452,
+        "normal_hours": 2.4236311111111113
+      },
+      "per_activity": {
+        "app_switching": {
+          "n": 360,
+          "alarm_rate_on_normal": 0.0,
+          "precision": null,
+          "recall": null,
+          "f1": null
+        },
+        "browsing": {
+          "n": 360,
+          "alarm_rate_on_normal": 0.0,
+          "precision": null,
+          "recall": null,
+          "f1": null
+        },
+        "charging": {
+          "n": 360,
+          "alarm_rate_on_normal": 0.0,
+          "precision": null,
+          "recall": null,
+          "f1": null
+        },
+        "gaming": {
+          "n": 360,
+          "alarm_rate_on_normal": 0.03888888888888889,
+          "precision": 0.0,
+          "recall": null,
+          "f1": 0.0
+        },
+        "video": {
+          "n": 360,
+          "alarm_rate_on_normal": 0.0032258064516129032,
+          "precision": 0.9705882352941176,
+          "recall": 0.66,
+          "f1": 0.7857142857142857
+        }
+      }
+    }
+  },
+  "early_warning": {
+    "definition": "A slowdown event is recorded when, in the SmartFreeze research responsiveness probe, (a) a scheduled main-thread probe completes more than 250 ms late, or (b) the research screen reports a frame with total duration above 250 ms (from Android FrameMetrics), or (c) the participant presses 'I noticed lag' in research mode. Events closer than 30 s to a previous event in the same session are merged into that event.",
+    "horizons": {
+      "30": {
+        "train_rows": 5027,
+        "train_positive_rows": 25,
+        "train_events": 5,
+        "test_events": 1,
+        "status": "insufficient data: need >= 20 train events and >= 5 test events with positives in train and validation; model NOT trained"
+      },
+      "60": {
+        "train_rows": 5027,
+        "train_positive_rows": 57,
+        "train_events": 5,
+        "test_events": 1,
+        "status": "insufficient data: need >= 20 train events and >= 5 test events with positives in train and validation; model NOT trained"
+      }
+    },
+    "status": "completed"
+  },
+  "training_fixture_sklearn_roc_auc": 0.8547142857142858,
+  "model_version": "if-20261106-1142c7cf",
+  "model_file_bytes": 1945067
+}

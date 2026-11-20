@@ -1,0 +1,87 @@
+%% Entity relationship diagram (Mermaid)
+erDiagram
+    SESSIONS ||--o{ SAMPLES : contains
+    SESSIONS ||--o{ ACTIVITY_LABELS : "labelled by"
+    SESSIONS ||--o{ ANOMALIES : produces
+    SAMPLES ||--o| FEATURE_WINDOWS : "has features"
+    ANOMALIES ||--o| ALERTS : raises
+    SESSIONS ||--o{ SLOWDOWN_EVENTS : "may contain"
+    SESSIONS {
+        long id PK
+        long startedAtMs
+        long endedAtMs
+        int intervalS
+        string mode
+        bool isResearch
+    }
+    SAMPLES {
+        long id PK
+        long sessionId FK
+        long timestampMs "UNIQUE with sessionId"
+        long memTotalBytes
+        long memAvailBytes
+        long memThresholdBytes
+        bool lowMemory
+        int thermalStatus "nullable"
+        double thermalHeadroom "nullable"
+        int batteryLevelPct "nullable"
+        double batteryTempC "nullable"
+        long storageAvailBytes "nullable"
+        int availability "bit mask"
+        bool isSimulated
+    }
+    FEATURE_WINDOWS {
+        long id PK
+        long sampleId FK
+        int windowSeconds
+        string featuresCsv
+    }
+    ACTIVITY_LABELS {
+        long id PK
+        long sessionId FK
+        string label
+        long startMs
+        long endMs
+    }
+    ANOMALIES {
+        long id PK
+        long sessionId FK
+        string source
+        double score
+        double threshold
+        string category
+        string severity
+        string explanation
+        bool isSimulated
+    }
+    ALERTS {
+        long id PK
+        long anomalyId
+        string severity
+        string message
+        bool acknowledged
+        bool isPrediction
+    }
+    SLOWDOWN_EVENTS {
+        long id PK
+        long sessionId
+        long timestampMs
+        string eventType
+        long latencyMs
+    }
+    MODEL_METADATA {
+        string modelVersion PK
+        bool syntheticTrainingData
+        int windowSeconds
+    }
+    SETTINGS {
+        int id PK
+        int intervalS
+        int retentionDays
+        string themeMode
+    }
+    DEVICE_INFO {
+        int id PK
+        string model
+        int sdkInt
+    }
