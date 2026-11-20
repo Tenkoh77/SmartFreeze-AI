@@ -1,7 +1,6 @@
 # SmartFreeze AI
 
 **Design and Development of an Intelligent Android Smartphone Performance Anomaly Detection and Freeze-Risk Warning System Using Machine Learning**
-Final-year Software Engineering project, Bindura University of Science Education (BUSE), Zimbabwe.
 
 SmartFreeze AI is an Android app that samples the performance indicators Android makes available to ordinary apps (memory, thermal state, battery, storage). It learns the phone's normal pattern with an **Isolation Forest** and flags unusual conditions with an explanation and safe recommendations. It works without root and without internet access, and all data stays on the phone. A research mode collects responsiveness ground truth for an **experimental** early-slowdown-warning study. Anomaly detection and freeze prediction are treated as different problems.
 
